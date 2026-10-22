@@ -44,7 +44,7 @@ strong { font-weight:500; }
 .home-logo { width:100%; height:auto; }
 .home-tagline { position:absolute; top:calc(25.0 * var(--u)); left:5.3%; width:31%; margin:0; font:400 calc(2.55 * var(--u))/1.18 var(--serif); letter-spacing:-.023em; }
 .home-description { position:absolute; top:calc(38.0 * var(--u)); left:5.3%; width:29.5%; margin:0; font:300 calc(1.72 * var(--u))/1.40 var(--serif); }
-.home-types { position:absolute; top:calc(48.0 * var(--u)); left:5.3%; width:33%; margin:0; font:400 calc(1.18 * var(--u))/1.36 var(--sans); }
+.home-types { position:absolute; top:calc(48.0 * var(--u)); left:5.3%; width:33%; margin:0; font:400 calc(1.18 * var(--u))/1.36 var(--sans); display:none; }
 .home-links { position:absolute; top:calc(54.8 * var(--u)); left:5.3%; width:34%; margin:0; display:flex; flex-wrap:wrap; gap:8px 22px; font-size:calc(1.54 * var(--u)); line-height:1.25; }
 .home-collage { position:absolute; inset:0; pointer-events:none; }
 .home-photo-one { top:calc(12.0 * var(--u)); left:40.9%; width:31.1%; height:calc(25.0 * var(--u)); }
@@ -311,22 +311,42 @@ strong { font-weight:500; }
   /* First image remains wide; second photo gets a true portrait space. */
   .home-photo-one { top:69%; left:0; width:60%; height:22%; }
   .home-photo-two { top:62%; left:62%; width:38%; height:30%; }
-  .about-main-photo { top:65%; left:59%; width:41%; height:28%; }
-  .beliefs-photo { top:74%; left:55%; width:45%; height:18%; }
+  .about-main-photo {        top: 65%;
+        left: auto;
+        right: 0%;
+        width: 55%;
+        height: 38%; }
+  .beliefs-photo {         top: 69%;
+        left: 0%;
+        width: 79%;
+        height: 48%; }
   .beliefs-photo.is-portrait { top:70%; left:65%; width:35%; height:23%; }
-  .services-photo-one { top:73%; left:35%; width:65%; height:20%; }
-  .process-photo { top:70%; left:28%; width:72%; height:22%; }
+  .services-photo-one { top: 71%;
+        left: 25%;
+        width: 75%;
+        height: 28%; }
+  .process-photo {         top: 65%;
+        left: 0%;
+        width: 72%;
+        height: 32%; }
 
   /* Two readable images instead of four squashed thumbnails. */
   .gallery-one { top:31%; left:0; width:53%; }
   .gallery-one .photo-slot { height:39svh; }
   .gallery-two { top:42%; left:57%; width:43%; }
-  .gallery-two .photo-slot { height:31svh; }
+  .gallery-two .photo-slot { height:38svh; }
   .gallery-one figcaption { padding-left:6.9vw; }
   .gallery-instagram { top:88%; }
 
-  .club-photo { top:63%; left:59%; width:41%; height:28%; }
-  .contact-photo-one { top:64%; left:61%; width:39%; height:24%; }
+  .club-photo {         top: 53%;
+        left: auto;
+        right: 0;
+        width: 61%;
+        height: 43%; }
+  .contact-photo-one {         top: 60%;
+        left: 45%;
+        width: 69%;
+        height: 30%; }
 }
 
 /* In a small phone viewport, keeping every word visible comes first. */
@@ -372,7 +392,7 @@ strong { font-weight:500; }
   .home-tagline { font-size:clamp(23px,min(7.1vw,4.85svh),43px); }
   .home-description { font-size:clamp(16px,min(4.9vw,3.18svh),28px); }
   .home-types { font-size:clamp(11.5px,min(3.05vw,2.2svh),17px); }
-  .home-links { font-size:clamp(17px,min(4.65vw,2.95svh),26px); }
+  .home-links {         margin-top: 30px; font-size:clamp(17px,min(4.65vw,2.95svh),26px); }
   .about-text { font-size:clamp(15.5px,min(4.7vw,3.1svh),28px); }
   .beliefs-list { font-size:clamp(14.5px,min(4.4vw,2.95svh),26px); }
   .service-text h3 { font-size:clamp(22px,min(5.45vw,3.7svh),35px); }
