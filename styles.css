@@ -1,0 +1,224 @@
+/*
+ * MOMENTS — editorial layout, closely following the supplied site's visual grammar.
+ * Desktop compositions use the same artboard-like, intentionally asymmetric
+ * positioning as the reference. Mobile becomes content-led rather than hiding text.
+ * Replace ImageKit links in images.js. No image labels render once loaded.
+ */
+:root { --ink: #111; --serif: 'Newsreader', Georgia, 'Times New Roman', serif; --sans: 'Nunito', Arial, sans-serif; --script: 'Caveat', cursive; }
+*,*::before,*::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body { margin: 0; background: #fff; color: var(--ink); font-family: var(--serif); overflow-x: clip; }
+img { display: block; max-width: 100%; }
+a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible,button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+strong { font-weight: 500; }
+.skip-link { position: fixed; z-index: 200; left: 16px; top: -100px; background: white; padding: 12px 16px; font: 14px var(--sans); }
+.skip-link:focus { top: 6px; }
+.site-header { position: fixed; inset: 0 0 auto; z-index: 100; padding: 0 5.1%; height: 67px; background: #fff; display: flex; justify-content: space-between; align-items: center; }
+.site-brand { display: block; flex: none; line-height: 0; }
+.site-brand img { width: clamp(104px, 10.7vw, 161px); height: auto; }
+.desktop-nav { display: flex; gap: clamp(20px,2vw,38px); align-items: center; font: 400 clamp(13px,1.1vw,16px)/1.3 var(--sans); }
+.desktop-nav a { color: var(--ink); text-decoration: none; }
+.desktop-nav a:hover,.desktop-nav a.active { text-decoration: underline; text-underline-offset: 4px; }
+.menu-toggle,.mobile-nav { display: none; }
+.mobile-nav[hidden] { display: none !important; }
+.screen { position: relative; isolation: isolate; width: 100%; height: max(830px, 68vw); min-height: 0; }
+.section-heading { position: absolute; left: 5.2%; top: 10.1vw; margin: 0; font: 400 clamp(33px,3.2vw,72px)/1.13 var(--serif); letter-spacing: -.035em; }
+.handwritten { font-family: var(--script); font-weight: 400; letter-spacing: -.03em; }
+.photo-slot { position: absolute; overflow: hidden; background: #eaeae8; }
+.photo-slot::after { content: attr(data-placeholder); position: absolute; left: 12px; bottom: 11px; font: 400 clamp(12px, 1.05vw, 17px)/1.2 var(--serif); color: var(--ink); pointer-events: none; }
+.photo-slot.is-loaded::after { display: none; }
+.photo-slot img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.photo-slot.has-error { background: #eaeae8; }
+
+/* Home — left-hand text and the same nearly edge-to-edge collage positions. */
+.home { height: max(870px, 68vw); }
+.home-copy { position: absolute; inset: 0; pointer-events: none; }
+.home-copy > * { pointer-events: auto; }
+.home h1 { position: absolute; top: 12vw; left: 5.15%; width: 32%; margin: 0; }
+.home-logo { width: 100%; height: auto; }
+.home-tagline { position: absolute; top: 25vw; left: 5.3%; width: 31%; font: 400 2.55vw/1.18 var(--serif); letter-spacing: -.023em; margin: 0; }
+.home-description { position: absolute; top: 38vw; left: 5.3%; width: 29.5%; font: 300 1.72vw/1.43 var(--serif); margin: 0; }
+.home-types { position: absolute; top: 48vw; left: 5.3%; width: 33%; font: 400 1.18vw/1.45 var(--sans); margin: 0; }
+.home-links { position: absolute; top: 54.8vw; left: 5.3%; width: 34%; display: flex; flex-wrap: wrap; gap: 10px 27px; margin: 0; font-size: 1.54vw; line-height: 1.3; }
+.home-collage { position: absolute; inset: 0; pointer-events: none; }
+.home-photo-one { left: 40.9%; top: 12vw; width: 31.1%; height: 25vw; }
+.home-photo-two { left: 72.9%; top: 12vw; width: 27.1%; height: 25vw; }
+.home-photo-three { left: 40.9%; top: 37.9vw; width: 26.4%; height: 21.3vw; }
+.home-photo-four { left: 68.2%; top: 37.9vw; width: 31.8%; height: 24.4vw; }
+
+/* About — text and photographs occupy different places, not a balanced grid. */
+.about { height: max(910px, 69vw); }
+.about-text { position: absolute; top: 19.4vw; left: 5.35%; width: 36.2%; font-size: 1.84vw; line-height: 1.42; }
+.about-text p { margin: 0 0 1.25em; }
+.about-main-photo { top: 16.7vw; left: 52%; width: 48%; height: 35.5vw; }
+.about-small-photo { top: 43.2vw; left: 42.2%; width: 21%; height: 20.5vw; }
+
+/* What I believe — prose as an honest bullet list. */
+.beliefs { height: max(850px, 67vw); }
+.beliefs-list { position: absolute; top: 19.7vw; left: 6.15%; width: 42%; padding: 0 0 0 2.1vw; margin: 0; font-size: 1.77vw; line-height: 1.38; }
+.beliefs-list li { padding-left: .35vw; margin: 0 0 2.7vw; }
+.beliefs-photo { top: 18.2vw; left: 56%; width: 44%; height: 38.5vw; }
+
+/* Experiences — this is intentionally close to the reference's Actions page. */
+.services { height: max(870px, 69vw); }
+.service-text { position: absolute; left: 5.4%; width: 39%; }
+.service-text h3 { margin: 0 0 1.3vw; font: 400 2.8vw/1.13 var(--serif); letter-spacing: -.028em; }
+.service-text p { margin: 0; font: 300 1.74vw/1.41 var(--serif); }
+.service-private { top: 18.2vw; }
+.service-supper { top: 32.8vw; }
+.service-events { top: 46.7vw; }
+.services-photo-one { top: 15.5vw; left: 54.8%; width: 39.3%; height: 25.5vw; }
+.services-photo-two { top: 41.9vw; left: 50%; width: 27.2%; height: 20.5vw; }
+.services-photo-three { top: 41.9vw; left: 78.8%; width: 21.2%; height: 20.5vw; }
+
+/* How it works — readable list, one large off-centre photo. */
+.process { height: max(825px, 66vw); }
+.process-list { position: absolute; top: 21.1vw; left: 6.15%; width: 30%; padding-left: 2vw; font-size: 1.81vw; line-height: 1.42; margin: 0; }
+.process-list li { padding-left: .3vw; margin-bottom: 2.7vw; }
+.process-photo { top: 16vw; left: 42%; width: 58%; height: 37.5vw; }
+.process-note { position: absolute; top: 54vw; left: 37%; font-size: 3vw; margin: 0; transform: rotate(-5deg); }
+
+/* Gallery — irregular photographic spread, including left/right bleed. */
+.gallery { height: max(1340px, 104vw); }
+.gallery-intro { position: absolute; left: 5.35%; top: 15.5vw; margin: 0; font-size: 1.8vw; }
+.gallery figure { position: absolute; margin: 0; }
+.gallery figure .photo-slot { position: relative; width: 100%; }
+.gallery figcaption { margin-top: 10px; padding: 0 8px; font: 300 1.3vw/1.28 var(--serif); }
+.gallery-one { left: 5.1%; top: 21vw; width: 35.5%; }
+.gallery-one .photo-slot { height: 28vw; }
+.gallery-two { left: 46%; top: 16.6vw; width: 54%; }
+.gallery-two .photo-slot { height: 35.8vw; }
+.gallery-three { left: 0%; top: 61.4vw; width: 25%; }
+.gallery-three .photo-slot { height: 23vw; }
+.gallery-three figcaption { padding-left: 5vw; }
+.gallery-four { left: 28%; top: 58.9vw; width: 45%; }
+.gallery-four .photo-slot { height: 29vw; }
+.gallery-instagram { position: absolute; top: 96vw; right: 5.2%; font-size: 1.65vw; }
+
+/* A deliberately quiet page for guest reactions. */
+.kind-words { height: max(680px, 53vw); }
+.kind-words .section-heading { top: 11vw; }
+.words-main { position: absolute; left: 42%; width: 49%; top: 19.6vw; font: 300 2.55vw/1.31 var(--serif); margin: 0; }
+.words-small { position: absolute; left: 42%; top: 38.3vw; width: 45%; font: 300 1.43vw/1.35 var(--serif); margin: 0; }
+.words-rule { position: absolute; left: 5.2%; right: 5.2%; bottom: 9.2vw; border-top: 1px solid #111; }
+
+/* Upcoming dinner and contact. No button chrome. */
+.next-club { height: max(835px, 67vw); }
+.club-text { position: absolute; top: 20.6vw; left: 5.35%; width: 36%; font-size: 1.77vw; line-height: 1.37; }
+.club-text p { margin: 0 0 2vw; }
+.club-title { font-size: 3.05vw; line-height: 1.11; letter-spacing: -.028em; }
+.club-text a { display: inline-block; margin-top: 2vw; }
+.club-photo { left: 47%; top: 16.9vw; width: 53%; height: 40vw; }
+.club-note { position: absolute; top: 57.8vw; left: 47%; width: 45%; font-size: 1.1vw; line-height: 1.3; margin: 0; }
+.contact { height: max(900px, 71vw); }
+.contact-intro { position: absolute; top: 20.5vw; left: 5.35%; width: 39%; font-size: 2.1vw; line-height: 1.25; margin: 0; }
+.contact-links { position: absolute; top: 29.8vw; left: 5.35%; width: 37%; font-size: 1.78vw; line-height: 1.4; }
+.contact-links p { margin: 0 0 2.8vw; overflow-wrap: anywhere; }
+.contact-photo-one { left: 58%; top: 16vw; width: 42%; height: 38.5vw; }
+.contact-photo-two { left: 34.5%; top: 41.9vw; width: 23%; height: 20vw; }
+.site-footer { position: absolute; left: 5.2%; right: 5.2%; bottom: 3vw; display: flex; justify-content: space-between; gap: 2vw; border-top: 1px solid #111; padding: 1vw 0 0; font: 400 clamp(12px,.96vw,17px)/1.35 var(--sans); }
+
+/* On a phone/tablet the images still wander, but not over the writing. */
+@media (max-width: 960px) {
+  html { scroll-padding-top: 72px; }
+  .site-header { height: 65px; padding: 0 6.9%; }
+  .site-brand img { width: 116px; }
+  .desktop-nav { display: none; }
+  .menu-toggle { display: flex; width: 42px; height: 42px; padding: 9px 5px; flex-direction: column; justify-content: space-around; border: 0; background: transparent; cursor: pointer; }
+  .menu-toggle span { display: block; width: 100%; height: 1.5px; background: #111; transform-origin: center; transition: transform .2s ease,opacity .2s ease; }
+  .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(10px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-10px) rotate(-45deg); }
+  .mobile-nav:not([hidden]) { position: fixed; display: flex; flex-direction: column; gap: 0; inset: 65px 0 0; height: calc(100svh - 65px); background: #fff; padding: 18px 6.9% 40px; overflow-y: auto; z-index: 101; }
+  .mobile-nav a { display: block; padding: 11px 0; border-bottom: 1px solid #ccc; font: 400 clamp(20px, 5vw, 32px)/1.13 var(--serif); text-decoration: none; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  body.menu-open { overflow: hidden; }
+  .screen { height: auto !important; min-height: 0; padding: 112px 6.9% 85px; }
+  .section-heading { position: static; font-size: clamp(34px, 7.2vw, 55px); line-height: 1.12; margin: 0 0 40px; }
+  .photo-slot { position: relative; inset: auto; }
+  .photo-slot::after { font-size: 15px; }
+  .home { padding-top: 118px; }
+  .home-copy { position: static; }
+  .home h1, .home-tagline, .home-description, .home-types, .home-links { position: static; width: auto; margin: 0; }
+  .home h1 { width: min(82%, 480px); margin: 0 0 44px; }
+  .home-tagline { font-size: clamp(31px, 6.8vw, 52px); max-width: 640px; line-height: 1.13; margin: 0 0 31px; }
+  .home-tagline br { display: none; }
+  .home-description { font-size: clamp(19px, 4.1vw, 29px); max-width: 620px; margin: 0 0 29px; }
+  .home-types { font-size: clamp(13px, 2.5vw, 16px); max-width: 550px; margin-bottom: 28px; }
+  .home-links { display: flex; gap: 18px 25px; font-size: clamp(18px, 3.8vw, 23px); }
+  .home-collage { position: relative; inset: auto; display: grid; grid-template-columns: 56% 44%; grid-template-rows: 160px 185px; width: calc(100% + 6.9vw); margin: 65px -6.9vw 0 0; overflow: visible; }
+  .home-photo-one, .home-photo-two, .home-photo-three, .home-photo-four { position: relative; inset: auto; width: auto; height: auto; }
+  .home-photo-one { grid-column: 1; grid-row: 1; margin-right: 9px; }
+  .home-photo-two { grid-column: 2; grid-row: 1; }
+  .home-photo-three { grid-column: 1; grid-row: 2; margin: 9px 9px 0 0; }
+  .home-photo-four { grid-column: 2; grid-row: 2; margin-top: 9px; }
+  .about-text { position: static; width: auto; max-width: 650px; font-size: clamp(20px, 4.05vw, 29px); line-height: 1.37; }
+  .about-text p { margin: 0 0 1.3em; }
+  .about-main-photo { width: 91%; height: 47vw; min-height: 225px; margin: 34px -6.9vw 0 auto; }
+  .about-small-photo { width: 44%; height: 38vw; min-height: 165px; margin: -15% auto 0 -6.9vw; }
+  .beliefs-list { position: static; padding: 0 0 0 24px; margin: 0; width: 100%; max-width: 700px; font-size: clamp(19px,4vw,29px); line-height: 1.37; }
+  .beliefs-list li { padding: 0 0 0 5px; margin: 0 0 27px; }
+  .beliefs-photo { width: 83%; height: 57vw; min-height: 240px; margin: 45px -6.9vw 0 auto; }
+  .service-text { position: static; width: auto; max-width: 650px; margin: 0 0 34px; }
+  .service-text h3 { font-size: clamp(26px,5vw,36px); margin: 0 0 10px; }
+  .service-text p { font-size: clamp(19px,4vw,29px); line-height: 1.38; }
+  .services-photo-one,.services-photo-two,.services-photo-three { position: relative; }
+  .services-photo-one { width: 85%; height: 55vw; min-height: 220px; margin: 35px -6.9vw 0 auto; }
+  .services-photo-two { width: 55%; height: 44vw; min-height: 185px; margin: -2vw auto 0 -6.9vw; }
+  .services-photo-three { width: 39%; height: 44vw; min-height: 185px; margin: -44vw -6.9vw 0 auto; }
+  .process-list { position: static; width: 100%; max-width: 700px; margin: 0; padding: 0 0 0 24px; font-size: clamp(19px,4vw,28px); line-height: 1.4; }
+  .process-list li { padding: 0 0 0 5px; margin: 0 0 30px; }
+  .process-photo { width: 91%; height: 59vw; min-height: 260px; margin: 45px -6.9vw 0 auto; }
+  .process-note { position: relative; width: 70%; top: auto; left: auto; transform: rotate(-4deg); font-size: clamp(27px,5.5vw,42px); margin: -4px 0 0 0; }
+  .gallery-intro { position: static; font-size: clamp(19px, 4vw, 29px); margin: -23px 0 50px; }
+  .gallery figure { position: static; width: auto; margin: 0 0 40px; }
+  .gallery figure .photo-slot { height: auto; min-height: 200px; }
+  .gallery-one { width: 92% !important; margin-left: -6.9vw !important; }
+  .gallery-one .photo-slot { aspect-ratio: 1.2; }
+  .gallery-two { width: 73% !important; margin: -4px -6.9vw 40px auto !important; }
+  .gallery-two .photo-slot { aspect-ratio: .9; }
+  .gallery-three { width: 54% !important; margin-left: -6.9vw !important; }
+  .gallery-three .photo-slot { aspect-ratio: .9; }
+  .gallery-four { width: 81% !important; margin: -2px -6.9vw 40px auto !important; }
+  .gallery-four .photo-slot { aspect-ratio: 1.4; }
+  .gallery figcaption { font-size: clamp(16px,3.5vw,22px); line-height: 1.25; padding: 0 8px; margin-top: 12px; }
+  .gallery-three figcaption { padding-left: 6.9vw; }
+  .gallery-instagram { position: static; display: inline-block; font-size: clamp(19px,3.5vw,24px); margin-top: 12px; }
+  .words-main { position: static; width: auto; margin: 12px 0 32px; font-size: clamp(28px,5.8vw,44px); line-height: 1.25; }
+  .words-small { position: static; width: auto; font-size: clamp(17px,3.5vw,23px); }
+  .words-rule { position: static; margin-top: 80px; }
+  .club-text { position: static; width: auto; font-size: clamp(20px,4vw,28px); }
+  .club-text p { margin: 0 0 28px; }
+  .club-title { font-size: clamp(36px,7vw,53px); margin-bottom: 32px !important; }
+  .club-text a { margin: 2px 0 0; }
+  .club-photo { width: 95%; height: 59vw; min-height: 280px; margin: 47px -6.9vw 0 auto; }
+  .club-note { position: static; margin: 15px 0 0; font-size: clamp(14px,3vw,17px); }
+  .contact-intro { position: static; width: auto; font-size: clamp(24px,5vw,34px); margin: 0 0 31px; }
+  .contact-links { position: static; width: auto; font-size: clamp(20px,4vw,29px); }
+  .contact-links p { margin: 0 0 25px; }
+  .contact-photo-one { width: 78%; height: 56vw; min-height: 240px; margin: 44px -6.9vw 0 auto; }
+  .contact-photo-two { width: 43%; height: 38vw; min-height: 167px; margin: -20% auto 0 -6.9vw; }
+  .site-footer { position: static; display: flex; flex-wrap: wrap; margin: 100px 0 0; padding: 13px 0 0; font-size: 12px; }
+}
+@media (max-width: 540px) {
+  .screen { padding: 103px 6.9% 60px; }
+  .section-heading { font-size: 36px; margin-bottom: 34px; }
+  .home h1 { width: 85%; margin-bottom: 42px; }
+  .home-tagline { font-size: clamp(29px, 7.4vw, 39px); }
+  .home-description { font-size: 20px; }
+  .home-types { font-size: 13px; }
+  .home-links { font-size: 20px; }
+  .home-collage { margin-top: 50px; grid-template-rows: 150px 185px; }
+  .about-text,.beliefs-list,.service-text p,.process-list,.club-text,.contact-links { font-size: 20px; }
+  .about-main-photo { height: 56vw; }
+  .about-small-photo { height: 45vw; }
+  .services-photo-one { height: 67vw; }
+  .services-photo-two,.services-photo-three { height: 51vw; }
+  .services-photo-three { margin-top: -51vw; }
+  .contact-photo-one { height: 66vw; }
+  .contact-photo-two { height: 47vw; }
+  .gallery-one { width: 100% !important; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .menu-toggle span { transition: none; } }
