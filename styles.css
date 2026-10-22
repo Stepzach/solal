@@ -262,7 +262,7 @@ strong { font-weight:500; }
   width:100%;
   height:100%;
   max-width:none;
-  object-fit:contain;
+  object-fit:cover;
   object-position:center;
 }
 
@@ -272,7 +272,7 @@ strong { font-weight:500; }
   .home-photo-one { top:calc(13 * var(--u)); left:40.9%; width:37%; height:calc(28 * var(--u)); }
   .home-photo-two { top:calc(16 * var(--u)); left:78.6%; width:21.4%; height:calc(42 * var(--u)); }
   .home-photo-three { top:calc(42 * var(--u)); left:40.9%; width:21%; height:calc(19.5 * var(--u)); }
-  .home-photo-four { top:calc(42 * var(--u)); left:63.7%; width:14%; height:calc(22 * var(--u)); }
+  .home-photo-four { top:calc(42 * var(--u)); left:62.7%; width:15%; height:calc(22 * var(--u)); }
 
   /* Cooking and hosting portraits, staggered vertically. */
   .about-main-photo { top:calc(15.1 * var(--u)); left:67%; width:33%; height:calc(45.4 * var(--u)); }
@@ -284,7 +284,7 @@ strong { font-weight:500; }
   .services-photo-one { top:calc(15.5 * var(--u)); left:54%; width:46%; height:calc(33 * var(--u)); }
   .services-photo-two { top:calc(49.4 * var(--u)); left:53.5%; width:23.5%; height:calc(18 * var(--u)); }
   .services-photo-three { top:calc(48.9 * var(--u)); left:78.1%; width:21.9%; height:calc(20 * var(--u)); }
-  .services-photo-three.is-portrait { top:calc(45.4 * var(--u)); height:calc(23.5 * var(--u)); }
+  .services-photo-three.is-portrait { top:calc(49.4 * var(--u)); height:calc(23.5 * var(--u)); }
   .process-photo { top:calc(18.2 * var(--u)); left:45.5%; width:54.5%; height:calc(38.4 * var(--u)); }
   .process-note { top:calc(58 * var(--u)); }
 
