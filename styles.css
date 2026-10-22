@@ -2,8 +2,8 @@
   Moments: nine one-viewport editorial spreads.
   Mirrors the original reference's restrained type and deliberately irregular photographs.
   Every .screen is exactly 100svh, with 100vh fallback, on all viewport sizes.
-  Photo slots accept inline background-image:url('YOUR_IMAGEKIT_URL').
-  The mobile navigation uses :target and needs no JavaScript.
+  Every photo URL is an img src in the HTML, without a separate images.js.
+  The mobile hamburger toggles into an X. Section links preserve the URL.
 */
 :root {
   --ink: #111;
@@ -19,7 +19,7 @@ body { margin: 0; color: var(--ink); background: #fff; font-family: var(--serif)
 img { display:block; max-width:100%; }
 a { color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
 a:hover { text-decoration-thickness:2px; }
-a:focus-visible,summary:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+a:focus-visible,button:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
 strong { font-weight:500; }
 .skip-link { position:fixed; top:-90px; left:10px; padding:10px; background:#fff; z-index:300; font:14px var(--sans); }
 .skip-link:focus { top:5px; }
@@ -34,8 +34,8 @@ strong { font-weight:500; }
 .screen { position:relative; isolation:isolate; width:100%; height:100vh; height:100svh; overflow:hidden; scroll-snap-align:start; scroll-snap-stop:always; }
 .section-heading { position:absolute; top:calc(10.0 * var(--u)); left:5.2%; margin:0; font:400 calc(3.2 * var(--u))/1.10 var(--serif); letter-spacing:-.035em; }
 .handwritten { font-family:var(--script); font-weight:400; }
-.photo-slot { position:absolute; overflow:hidden; background-color:#eaeae8; background-size:cover; background-position:center; }
-.photo-slot:not([style*="background-image"])::after { content:attr(data-placeholder); position:absolute; bottom:9px; left:11px; font:400 clamp(11px,1.05vw,16px)/1.2 var(--serif); }
+.photo-slot { position:absolute; overflow:visible; background:transparent; }
+
 
 /* Home — note the right-hand photographs touch the very edge. */
 .home-copy { position:absolute; inset:0; pointer-events:none; }
@@ -119,15 +119,18 @@ strong { font-weight:500; }
   .site-header { height:var(--header-h); padding:0 6.9%; }
   .site-brand img { width:clamp(100px,17vw,126px); }
   .desktop-nav { display:none; }
-  .menu-toggle { display:flex; flex-direction:column; justify-content:space-around; width:37px; height:32px; padding:4px; text-decoration:none; }
-  .menu-toggle span { display:block; height:1.5px; width:100%; background:var(--ink); }
+  .menu-toggle { display:flex; position:relative; z-index:2; flex-direction:column; justify-content:space-around; width:40px; height:40px; padding:6px; border:0; background:transparent; color:var(--ink); cursor:pointer; }
+  .menu-toggle span { display:block; height:2px; width:100%; background:currentColor; transform-origin:center; transition:transform .22s ease, opacity .15s ease; }
+  .menu-toggle[aria-expanded="true"] span:first-child { transform:translateY(9px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity:0; }
+  .menu-toggle[aria-expanded="true"] span:last-child { transform:translateY(-9px) rotate(-45deg); }
   .mobile-nav { display:none; position:fixed; z-index:150; inset:var(--header-h) 0 0; padding:16px 7% 24px; background:white; overflow:auto; flex-direction:column; justify-content:center; }
-  .mobile-nav:target { display:flex; }
+  .mobile-nav:not([hidden]) { display:flex; }
   .mobile-nav a { display:block; width:100%; padding:clamp(6px,1svh,13px) 0; border-bottom:1px solid #ddd; text-decoration:none; font:400 clamp(19px, min(4.5vw,3.1svh),32px)/1.12 var(--serif); }
-  .mobile-nav .menu-close { align-self:flex-end; width:auto; border:0; padding:5px 0 12px; font:400 13px/1.2 var(--sans); text-decoration:underline; }
+
   .screen { height:100vh; height:100svh; }
   .section-heading { top:12.4%; left:6.9%; font-size:clamp(25px,min(5.7vw,5.2svh),45px); line-height:1.13; }
-  .photo-slot::after { font-size:clamp(10px,1.8svh,16px); }
+
 
   /* The text remains in normal flow inside its anchored block, never individually cropped. */
   .home-copy { top:12%; bottom:auto; left:6.9%; right:6.9%; display:flex; flex-direction:column; align-items:flex-start; gap:clamp(8px,1.4svh,16px); }
@@ -241,3 +244,162 @@ strong { font-weight:500; }
   .about-small-photo,.beliefs-photo,.services-photo-two,.services-photo-three,.process-note,.gallery-three,.gallery-four,.contact-photo-two { display:none; }
 }
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+
+
+/* ================================================================
+   Portrait-friendly photography
+
+   Keep the asymmetrical edge-to-edge editorial composition but
+   NEVER crop photos. Images keep their full original aspect ratio.
+   The actual frame shapes are tailored to the portrait or landscape
+   source; blank space is intentional rather than cutting off heads,
+   dishes or table settings.
+   ================================================================ */
+.photo-slot > img {
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:none;
+  object-fit:contain;
+  object-position:center;
+}
+
+
+@media (min-width:961px) {
+  /* Hero: a generous landscape table, two portraits, an offbeat detail. */
+  .home-photo-one { top:calc(13 * var(--u)); left:40.9%; width:37%; height:calc(28 * var(--u)); }
+  .home-photo-two { top:calc(16 * var(--u)); left:78.6%; width:21.4%; height:calc(42 * var(--u)); }
+  .home-photo-three { top:calc(42 * var(--u)); left:40.9%; width:21%; height:calc(19.5 * var(--u)); }
+  .home-photo-four { top:calc(42 * var(--u)); left:63.7%; width:14%; height:calc(22 * var(--u)); }
+
+  /* Cooking and hosting portraits, staggered vertically. */
+  .about-main-photo { top:calc(15.1 * var(--u)); left:67%; width:33%; height:calc(45.4 * var(--u)); }
+  .about-small-photo { top:calc(40 * var(--u)); left:46%; width:19.5%; height:calc(24.8 * var(--u)); }
+  .beliefs-photo { top:calc(19.4 * var(--u)); left:53%; width:47%; height:calc(34.2 * var(--u)); }
+  .beliefs-photo.is-portrait { top:calc(16 * var(--u)); left:66%; width:34%; height:calc(44 * var(--u)); }
+
+  /* All three service photos retain the dishes and people in frame. */
+  .services-photo-one { top:calc(15.5 * var(--u)); left:54%; width:46%; height:calc(33 * var(--u)); }
+  .services-photo-two { top:calc(49.4 * var(--u)); left:53.5%; width:23.5%; height:calc(18 * var(--u)); }
+  .services-photo-three { top:calc(48.9 * var(--u)); left:78.1%; width:21.9%; height:calc(20 * var(--u)); }
+  .services-photo-three.is-portrait { top:calc(45.4 * var(--u)); height:calc(23.5 * var(--u)); }
+  .process-photo { top:calc(18.2 * var(--u)); left:45.5%; width:54.5%; height:calc(38.4 * var(--u)); }
+  .process-note { top:calc(58 * var(--u)); }
+
+  /* An uneven row of tall photographs, all captions still visible. */
+  .gallery-one { top:calc(22.6 * var(--u)); left:4.3%; width:21%; }
+  .gallery-one .photo-slot { height:calc(35.5 * var(--u)); }
+  .gallery-two { top:calc(16.3 * var(--u)); left:28.5%; width:23%; }
+  .gallery-two .photo-slot { height:calc(36.2 * var(--u)); }
+  .gallery-three { top:calc(24.2 * var(--u)); left:54.5%; width:19.4%; }
+  .gallery-three .photo-slot { height:calc(34 * var(--u)); }
+  .gallery-three figcaption { padding-left:6px; }
+  .gallery-four { top:calc(16.7 * var(--u)); left:77%; width:23%; }
+  .gallery-four .photo-slot { height:calc(35.8 * var(--u)); }
+  .gallery-instagram { top:calc(62.1 * var(--u)); }
+
+  .club-photo { top:calc(15.2 * var(--u)); left:67%; width:33%; height:calc(46 * var(--u)); }
+  .club-photo.is-landscape { top:calc(21 * var(--u)); left:51%; width:49%; height:calc(32 * var(--u)); }
+  .contact-photo-one { top:calc(15.8 * var(--u)); left:66%; width:34%; height:calc(43 * var(--u)); }
+  .contact-photo-one.is-landscape { top:calc(16 * var(--u)); left:53%; width:47%; height:calc(35 * var(--u)); }
+  .contact-photo-two { top:calc(41.8 * var(--u)); left:44.8%; width:19%; height:calc(23.4 * var(--u)); }
+}
+
+@media (max-width:960px) {
+  /* First image remains wide; second photo gets a true portrait space. */
+  .home-photo-one { top:69%; left:0; width:60%; height:22%; }
+  .home-photo-two { top:62%; left:62%; width:38%; height:30%; }
+  .about-main-photo { top:65%; left:59%; width:41%; height:28%; }
+  .beliefs-photo { top:74%; left:55%; width:45%; height:18%; }
+  .beliefs-photo.is-portrait { top:70%; left:65%; width:35%; height:23%; }
+  .services-photo-one { top:73%; left:35%; width:65%; height:20%; }
+  .process-photo { top:70%; left:28%; width:72%; height:22%; }
+
+  /* Two readable images instead of four squashed thumbnails. */
+  .gallery-one { top:31%; left:0; width:53%; }
+  .gallery-one .photo-slot { height:39svh; }
+  .gallery-two { top:42%; left:57%; width:43%; }
+  .gallery-two .photo-slot { height:31svh; }
+  .gallery-one figcaption { padding-left:6.9vw; }
+  .gallery-instagram { top:88%; }
+
+  .club-photo { top:63%; left:59%; width:41%; height:28%; }
+  .contact-photo-one { top:64%; left:61%; width:39%; height:24%; }
+}
+
+/* In a small phone viewport, keeping every word visible comes first. */
+@media (max-width:600px) and (max-height:720px) {
+  .home-photo-one { top:75%; width:62%; height:19%; }
+  .home-photo-two { top:72%; left:64%; width:36%; height:22%; }
+  .about-main-photo { display:none; }
+  .services-photo-one { top:79%; left:40%; width:60%; height:14%; }
+  .process-photo { top:75%; left:37%; width:63%; height:17%; }
+  .gallery-one { top:32%; width:53%; }
+  .gallery-one .photo-slot { height:32svh; }
+  .gallery-two { top:41%; width:43%; }
+  .gallery-two .photo-slot { height:26svh; }
+  .gallery-instagram { top:86%; }
+  .club-photo { top:72%; left:66%; width:34%; height:17%; }
+}
+
+/* Narrow landscape: single generous image, never a sliced photograph. */
+@media (max-height:500px) {
+  .about-main-photo,.beliefs-photo,.club-photo,.contact-photo-one { display:none; }
+  .home-photo-one { top:62%; left:55%; width:45%; height:30%; }
+  .home-photo-two { display:none; }
+  .gallery-one { top:32%; left:8%; width:40%; }
+  .gallery-one .photo-slot { height:43svh; }
+  .gallery-two { top:36%; left:55%; width:37%; }
+  .gallery-two .photo-slot { height:38svh; }
+}
+
+@media (min-width:961px) {
+  /* The date note sits beneath the portrait instead of across its lower edge. */
+  .club-note { top:calc(63 * var(--u)); left:67%; width:30%; }
+}
+
+
+/* Navigation and handset reading rhythm. */
+.mobile-nav[hidden] { display:none !important; }
+@media (max-width:960px) {
+  html { scroll-snap-type:none; }
+  .screen { scroll-snap-align:none; scroll-snap-stop:normal; }
+  html.menu-open { overflow:hidden; }
+  /* A modest increase, except on shorter phones where all copy must fit. */
+  .section-heading { font-size:clamp(26px,min(6vw,5.5svh),47px); }
+  .home-tagline { font-size:clamp(23px,min(7.1vw,4.85svh),43px); }
+  .home-description { font-size:clamp(16px,min(4.9vw,3.18svh),28px); }
+  .home-types { font-size:clamp(11.5px,min(3.05vw,2.2svh),17px); }
+  .home-links { font-size:clamp(17px,min(4.65vw,2.95svh),26px); }
+  .about-text { font-size:clamp(15.5px,min(4.7vw,3.1svh),28px); }
+  .beliefs-list { font-size:clamp(14.5px,min(4.4vw,2.95svh),26px); }
+  .service-text h3 { font-size:clamp(22px,min(5.45vw,3.7svh),35px); }
+  .service-text p { font-size:clamp(15.5px,min(4.6vw,3.05svh),28px); }
+  .process-list { font-size:clamp(15.5px,min(4.65vw,3.15svh),28px); }
+  .gallery-intro { font-size:clamp(17px,min(4.4vw,3.05svh),29px); }
+  .gallery figcaption { font-size:clamp(12.5px,min(3.4vw,2.3svh),20px); }
+  .gallery-instagram { font-size:clamp(17px,min(4.4vw,3svh),26px); }
+  .words-main { font-size:clamp(25px,min(6.7vw,4.85svh),45px); }
+  .words-small { font-size:clamp(16px,min(4.1vw,2.95svh),26px); }
+  .club-text { font-size:clamp(19px,min(5.0vw,3.25svh),30px); }
+  .contact-intro { font-size:clamp(20px,min(5.2vw,3.55svh),32px); }
+  .contact-links { font-size:clamp(17px,min(4.7vw,3.10svh),29px); }
+}
+@media (max-width:600px) and (max-height:720px) {
+  /* Deliberate fallback to the tighter set: never sacrifice readable content. */
+  .home-tagline { font-size:clamp(19px,min(6.4vw,4.25svh),29px); }
+  .home-description { font-size:clamp(13px,min(4.35vw,2.75svh),18px); }
+  .home-types { font-size:clamp(10px,min(2.7vw,1.9svh),14px); }
+  .home-links { font-size:clamp(15px,min(4.1vw,2.65svh),19px); }
+  .about-text { font-size:clamp(13px,min(4vw,2.6svh),17px); }
+  .beliefs-list { font-size:clamp(12px,min(3.95vw,2.48svh),17px); }
+  .service-text h3 { font-size:clamp(19px,min(5vw,3.2svh),26px); }
+  .service-text p { font-size:clamp(13px,min(4.05vw,2.6svh),18px); }
+  .process-list { font-size:clamp(13px,min(4.1vw,2.6svh),18px); }
+  .contact-links { font-size:clamp(14px,min(4.2vw,2.7svh),20px); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .menu-toggle span { transition:none; }
+}
