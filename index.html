@@ -8,13 +8,10 @@
   <meta property="og:title" content="Moments — intimate dinners and supper clubs">
   <meta property="og:description" content="Arrive as individuals, leave part of something bigger.">
   <title>Moments — around the table</title>
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <script src="images.js" defer></script>
-  <script src="script.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -26,10 +23,10 @@
       <a href="#gallery">Moments</a>
       <a href="#contact">Contact</a>
     </nav>
-    <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="mobile-nav" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+    <!-- A CSS-only menu: following any section link closes it naturally. -->
+    <a class="menu-toggle" href="#mobile-nav" aria-label="Open navigation menu"><span></span><span></span><span></span></a>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+      <a class="menu-close" href="#home" aria-label="Close navigation menu">Close</a>
       <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#beliefs">What I believe</a>
@@ -43,10 +40,13 @@
   </header>
 
   <main id="main">
+    <!-- Add an ImageKit photo directly to any .photo-slot, for example:
+         <div class="photo-slot home-photo-one" style="background-image: url('https://ik.imagekit.io/your-account/photo.jpg')"></div>
+         All photo positions remain responsive; secondary images hide on short/mobile screens. -->
     <section class="screen home" id="home" aria-labelledby="home-heading">
       <div class="home-copy">
         <h1 id="home-heading"><img class="home-logo" src="assets/moments-logo.png" alt="Moments" width="1602" height="385"></h1>
-        <p class="home-tagline">Arrive as individuals,<br> leave part of something bigger.</p>
+        <p class="home-tagline">Arrive as individuals,<br>leave part of something bigger.</p>
         <p class="home-description">A self-taught chef who turns food into an experience that makes people feel part of something.</p>
         <p class="home-types">Self-taught chef · Private dinners · Supper clubs · Events</p>
         <p class="home-links"><a href="mailto:Solal.haimovici@gmail.com?subject=Moments%20%E2%80%94%20Private%20dinner">Book a dinner</a><a href="#gallery">See past moments</a></p>
@@ -160,7 +160,7 @@
       </div>
       <div class="photo-slot contact-photo-one" data-photo="contact" data-placeholder="See you around the table"></div>
       <div class="photo-slot contact-photo-two" data-photo="heroDetails" data-placeholder="Little moments"></div>
-      <footer class="site-footer"><span>Moments</span><span>Arrive as individuals, leave part of something bigger.</span><span>© <span id="copyright-year">2026</span></span></footer>
+      <footer class="site-footer"><span>Moments</span><span>Arrive as individuals, leave part of something bigger.</span><span>© 2026</span></footer>
     </section>
   </main>
 </body>
