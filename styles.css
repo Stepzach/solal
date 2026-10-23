@@ -324,8 +324,8 @@ strong { font-weight:500; }
   .about-main-photo { top:calc(15.1 * var(--u)); left:67%; width:33%; height:calc(45.4 * var(--u)); }
   .about-small-photo { top:calc(40 * var(--u)); left:46%; width:19.5%; height:calc(24.8 * var(--u)); }
   .beliefs-photo {         top: calc(16.4 * var(--u));
-        left: 43%;
-        width: 53%;
+                left: 49%;
+        width: 45%;
         height: calc(45.2 * var(--u)); }
   .beliefs-photo.is-portrait { top:calc(16 * var(--u)); left:66%; width:34%; height:calc(44 * var(--u)); }
 
