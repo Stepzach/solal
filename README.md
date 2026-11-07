@@ -1,30 +1,29 @@
 # Moments — editorial site
 
-The revised site deliberately follows the HTML/CSS reference you supplied: white background, Newsreader serif typography, plain black copy and links, sparse navigation, and deliberately off-grid image placement. No numbered sections, cards, button styling, or arrow embellishments. The supplied red wordmark is the only coloured text/graphic element.
+A static site for Solal Haimovici's private dinners and supper clubs. The white background, Newsreader typography, red wordmark and asymmetrical photography are intentional. There is no build step or external JavaScript dependency.
 
-## Add your ImageKit photos
+## Preview and publish
 
-Open **`images.js`**. Replace the URLs beside the named photo positions with your own complete ImageKit URLs, for example:
+Run `python3 -m http.server 4173` in this directory and open `http://localhost:4173`.
 
-```js
-heroTable: "https://ik.imagekit.io/YOUR_ACCOUNT/dinner-table.jpg",
-```
+Upload `index.html`, `styles.css`, `script.js` and `assets/` to a static host. The page loads `script.js` for navigation; keep that file alongside the HTML.
 
-There are 16 unique image keys. Some keys appear in more than one place (for example the guests photograph in the hero and beliefs), which is intentional. If you prefer a different photograph there, add a new key to `images.js` and update the corresponding `data-photo` in `index.html`.
+## Photography and content
 
-Sample Unsplash URLs are **visual placeholders only** and are not photographs of your dinners. If the external URLs are blocked, the photo regions remain visible with small labels so you can see exactly where to add photography. Replace the sample pictures before publishing.
+Photo URLs and alternative text are in `index.html`. Edit the corresponding `<img>` there to change a photograph. `images.js` is a legacy configuration file and is not loaded by the page.
 
-## Publish
+The next supper club currently says its location and date will be announced. Confirm those details with Solal before announcing bookings. Gallery captions use general wording where event names have not been supplied.
 
-Upload `index.html`, `styles.css`, `script.js`, `images.js` and the `assets/` folder to a static hosting provider such as Netlify, Cloudflare Pages, Vercel or GitHub Pages. The site has no build step or external JavaScript dependencies.
+Booking, contact and “Join the list” links open an email to `Solal.haimovici@gmail.com`; the list is not a connected newsletter signup. Instagram links point to `@mmmoments.fr` and `@solalhaimovici`.
 
-## Contacts and next supper club
+## Responsive navigation
 
-- Booking and contact links compose emails to `Solal.haimovici@gmail.com`.
-- `Join the list` also composes an email. It is **not** yet a connected newsletter signup. A mailing-list service can be connected later.
-- The Kind words section leaves room for real guest quotes; none have been fabricated.
-- Instagram URLs point to `@mmmoments.fr` and `@solalhaimovici`.
+- Desktop keeps the original full-screen spreads and scroll snapping.
+- At 960px and below, sections have a minimum height of 760px so short phones can scroll through the same composition without shrinking copy or hiding extra photographs. The conflicting tiny-screen overrides have been removed.
+- The mobile menu fades and slides in and out, with gently staggered links. Reduced-motion preferences disable transitions and smooth scrolling.
+- The visible section's link is bold in both menus and has `aria-current="location"`. “How it works” belongs to Experiences; the home spread has no selected section link.
+- Escape closes the menu and restores focus. Tab stays within an open menu, background content is inert, and choosing a section moves focus to that section without adding a URL fragment.
 
-## Mobile behaviour
+## Review checks
 
-Unlike the reference's original fixed-height mobile sections, these sections expand to fit all copy. Pictures remain asymmetrical and bleed toward the edges without obscuring paragraphs or calls to action.
+Check portrait phones (320 × 568, 375 × 667, 390 × 844), landscape (844 × 390), tablet (768 × 1024), the 960/961px breakpoint, and desktop (1440 × 900). Verify section highlighting while scrolling in both directions, repeated menu toggles, Escape/Tab, resizing an open menu, and all section links. Run `node --check script.js` and `git diff --check` before committing.

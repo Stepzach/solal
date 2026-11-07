@@ -10,10 +10,12 @@
   <title>Moments — around the table</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
  
   <header class="site-header" id="site-header">
     <a class="site-brand" href="#home" aria-label="Moments — home"><img src="https://ik.imagekit.io/53bnrahwc/Image%20126.png" alt="Moments" width="1602" height="385" style="
@@ -41,18 +43,18 @@
     </nav>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <!-- Photo URLs live directly in each <img src="..."> below.
          Change each address here whenever you want a new photograph. -->
     <section class="screen home" id="home" aria-labelledby="home-heading">
       <div class="home-copy">
         
-        <p class="home-tagline">Arrive as individuals,<br> leave part of something bigger.</p>
+        <h1 id="home-heading" class="home-tagline">Arrive as individuals,<br> leave part of something bigger.</h1>
         <p class="home-description">A self-taught chef who turns food into an experience that makes people feel part of something.</p>
         <p class="home-types">Self-taught chef · Private dinners · Supper clubs · Events</p>
-        <p class="home-links"><a href="mailto:Solal.haimovici@gmail.com?subject=Moments%20%E2%80%94%20Private%20dinner">Join our <u>(next) moment</u></a><a href="#gallery">See <u>(past) moments</u></a></p>
+        <p class="home-links"><a href="#supper-club">Join our <u>(next) moment</u></a><a href="#gallery">See <u>(past) moments</u></a></p>
       </div>
-       <div class="beliefs-photo photo-slot is-landscape"><img src="https://github.com/Stepzach/moments/blob/main/SnapInsta.to_550833362_18404770693136661_4199616670695723603_n.jpg?raw=true" alt="Guests together around the table" loading="eager" decoding="async"></div>
+       <div class="beliefs-photo photo-slot is-landscape"><img src="https://github.com/Stepzach/moments/blob/main/SnapInsta.to_550833362_18404770693136661_4199616670695723603_n.jpg?raw=true" alt="Guests together around the table" fetchpriority="high" loading="eager" decoding="async"></div>
 
     </section>
 
@@ -75,9 +77,9 @@
         <li><strong>Belonging.</strong> At my first supper club, ten of sixteen guests were strangers. By dessert, they were asking when the next one was.</li>
       </ul>
        <div class="home-collage" aria-label="Spaces for images of food, the table and guests">
-        <div class="photo-slot home-photo home-photo-one is-landscape"><img src="https://ik.imagekit.io/53bnrahwc/IMG_6582.jpg" alt="A table prepared for a shared meal" loading="eager" decoding="async" fetchpriority="high"></div>
-        <div class="photo-slot home-photo home-photo-two is-portrait"><img src="https://ik.imagekit.io/53bnrahwc/IMG_4436.jpg" alt="Food prepared for a dinner" loading="eager" decoding="async"></div>
-            <div class="photo-slot home-photo home-photo-four is-portrait"><img src="https://ik.imagekit.io/53bnrahwc/IMG_0043.jpg" alt="A close-up of a dish" loading="eager" decoding="async"></div>
+        <div class="photo-slot home-photo home-photo-one is-landscape"><img src="https://ik.imagekit.io/53bnrahwc/IMG_6582.jpg" alt="A table prepared for a shared meal" loading="lazy" decoding="async"></div>
+        <div class="photo-slot home-photo home-photo-two is-portrait"><img src="https://ik.imagekit.io/53bnrahwc/IMG_4436.jpg" alt="Food prepared for a dinner" loading="lazy" decoding="async"></div>
+            <div class="photo-slot home-photo home-photo-four is-portrait"><img src="https://ik.imagekit.io/53bnrahwc/IMG_0043.jpg" alt="A close-up of a dish" loading="lazy" decoding="async"></div>
       </div>
       
         </section>
@@ -117,7 +119,7 @@
       <p class="gallery-intro">A few scenes from around the table.</p>
       <figure class="gallery-one">
         <div class="photo-slot is-portrait"><img src="https://github.com/Stepzach/moments/blob/main/IMG_3884.jpeg?raw=true" alt="A moment from a supper club" loading="lazy" decoding="async"></div>
-        <figcaption>Location? Event name?</figcaption>
+        <figcaption>Around the supper club table.</figcaption>
       </figure>
       <figure class="gallery-two">
         <div class="photo-slot is-portrait"><img src="https://github.com/Stepzach/moments/blob/main/554253863_18405213562136661_3050556343251531509_n.jpg?raw=true" alt="A scene from the kitchen" loading="lazy" decoding="async"></div>
@@ -125,11 +127,11 @@
       </figure>
       <figure class="gallery-three">
         <div class="photo-slot is-portrait"><img src="https://ik.imagekit.io/53bnrahwc/IMG_2818.jpeg" alt="A detail from a gathering" loading="lazy" decoding="async"></div>
-        <figcaption>Event Name?</figcaption>
+        <figcaption>Details from around the table.</figcaption>
       </figure>
       <figure class="gallery-four">
         <div class="photo-slot is-portrait"><img src="https://github.com/Stepzach/moments/blob/main/IMG_3881.jpeg?raw=true" alt="Food shared at the table" loading="lazy" decoding="async"></div>
-        <figcaption>Event Name? Cap Ferret.</figcaption>
+        <figcaption>Summer in Cap Ferret.</figcaption>
       </figure>
       <a class="gallery-instagram" href="https://www.instagram.com/mmmoments.fr/" target="_blank" rel="noopener noreferrer">More moments on <u>@mmmoments.fr</u></a>
     </section>
@@ -140,7 +142,7 @@
       <h2 id="club-heading" class="section-heading">Our (next) Moment</h2>
       <div class="club-text">
         <p class="club-title">An Italian evening,<br>this winter.</p>
-        <p>Old guests, new faces, one long table.<br><br>Location: ?<br>Time:?</p>
+        <p>Old guests, new faces, one long table.<br><br>Location and date to be announced.</p>
         <a href="mailto:Solal.haimovici@gmail.com?subject=Moments%20%E2%80%94%20Italian%20supper%20club%20list&body=Hello%20Solal%2C%0A%0AI%E2%80%99d%20like%20to%20join%20the%20list%20for%20the%20next%20supper%20club.%0A"><u>Join the list</u></a>
       </div>
       <div class="photo-slot club-photo is-portrait"><img style="
@@ -158,52 +160,10 @@
         <p>Instagram<br><a href="https://www.instagram.com/mmmoments.fr/" target="_blank" rel="noopener noreferrer"><u>@mmmoments.fr</u></a><br><a href="https://www.instagram.com/solalhaimovici/" target="_blank" rel="noopener noreferrer"><u>@solalhaimovici</u></a></p>
       </div>
       <div class="photo-slot contact-photo-one is-portrait"><img src="https://github.com/Stepzach/moments/blob/main/IMG_3880.jpeg?raw=true" alt="The people behind a shared meal" loading="lazy" decoding="async"></div>
-      <div class="photo-slot contact-photo-two is-portrait"><img src="https://ik.imagekit.io/53bnrahwc/IMG_4436.jpg" alt="A close-up of a dish" loading="eager" decoding="async"></div>
-      <footer class="site-footer"><span>Solal Haimovici</span><span class="hidemobile">Arrive as individuals, leave part of something bigger.</span><span>© 2026</span></footer>
+      <div class="photo-slot contact-photo-two is-portrait"><img src="https://ik.imagekit.io/53bnrahwc/IMG_4436.jpg" alt="A close-up of a dish" loading="lazy" decoding="async"></div>
+      <footer class="site-footer"><span>Solal Haimovici</span><span class="hidemobile">Arrive as individuals, leave part of something bigger.</span><span>© <span id="copyright-year">2026</span></span></footer>
     </section>
   </main>
-  <script>
-    // Internal links scroll without changing the address or adding #section.
-    // This works for the desktop menu, mobile menu, logo, and on-page links.
-    const menuButton = document.querySelector('.menu-toggle');
-    const mobileNav = document.getElementById('mobile-nav');
-
-    function setMenuOpen(open) {
-      mobileNav.hidden = !open;
-      menuButton.setAttribute('aria-expanded', String(open));
-      menuButton.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-      document.documentElement.classList.toggle('menu-open', open);
-    }
-
-    menuButton.addEventListener('click', () => {
-      setMenuOpen(mobileNav.hidden);
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', event => {
-        const fragment = link.getAttribute('href').slice(1);
-        if (!fragment) return;
-        const destination = document.getElementById(fragment);
-        if (!destination) return;
-        event.preventDefault();
-        setMenuOpen(false);
-        destination.scrollIntoView({
-          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-          block: 'start'
-        });
-      });
-    });
-
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && !mobileNav.hidden) {
-        setMenuOpen(false);
-        menuButton.focus();
-      }
-    });
-
-    window.matchMedia('(min-width: 961px)').addEventListener('change', event => {
-      if (event.matches) setMenuOpen(false);
-    });
-  </script>
+  <script src="script.js" defer></script>
 </body>
 </html>
