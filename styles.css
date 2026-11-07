@@ -1,7 +1,7 @@
 /*
   Moments: nine one-viewport editorial spreads.
   Mirrors the original reference's restrained type and deliberately irregular photographs.
-  Every .screen is exactly 100svh, with 100vh fallback, on all viewport sizes.
+  Desktop spreads fill the viewport; mobile spreads have room for readable copy.
   Every photo URL is an img src in the HTML, without a separate images.js.
   The mobile hamburger toggles into an X. Section links preserve the URL.
 */
@@ -28,6 +28,7 @@ strong { font-weight:500; }
 .site-brand img { width:clamp(96px,8vw,165px); height:auto; }
 .desktop-nav { display:flex; align-items:center; gap:clamp(16px,2vw,38px); font:400 clamp(12px,1.08vw,16px)/1.25 var(--sans); }
 .desktop-nav a { text-decoration:none; }
+.site-header nav a[aria-current="location"] { font-weight:600; }
 .desktop-nav a:hover { text-decoration:underline; }
 .menu-toggle,.mobile-nav { display:none; }
 
@@ -40,7 +41,7 @@ strong { font-weight:500; }
 /* Home — note the right-hand photographs touch the very edge. */
 .home-copy { position:absolute; inset:0; pointer-events:none; }
 .home-copy > * { pointer-events:auto; }
-.home h1 { position:absolute; top:calc(12 * var(--u)); left:5.15%; width:32%; margin:0; }
+
 .home-logo { width:100%; height:auto; }
 .home-tagline { position:absolute; top:calc(18.0 * var(--u)); left:5.3%; width:31%; margin:0; font:400 calc(2.55 * var(--u))/1.18 var(--serif); letter-spacing:-.023em; }
 .home-description { position:absolute; top:calc(35.0 * var(--u)); left:5.3%; width:29.5%; margin:0; font:300 calc(1.72 * var(--u))/1.40 var(--serif); }
@@ -136,7 +137,7 @@ strong { font-weight:500; }
 .club-note { position:absolute; top:calc(57.8 * var(--u)); left:47%; width:45%; margin:0; font-size:calc(1.1 * var(--u)); line-height:1.3; }
 
 .contact-intro { position:absolute; top:calc(20.5 * var(--u)); left:5.35%; width:39%; margin:0; font-size:calc(2.1 * var(--u)); line-height:1.25; }
-.contact-links { position:absolute; top:calc(29.8 * var(--u)); left:5.35%; width:37%; font-size:calc(1.78 * var(--u)); line-height:1.4; }
+.contact-links { position:absolute; top:calc(29.8 * var(--u)); left:5.35%; width:28%; font-size:calc(1.78 * var(--u)); line-height:1.4; }
 .contact-links p { margin:0 0 calc(2.8 * var(--u)); overflow-wrap:anywhere; }
 .contact-photo-one { top:calc(16 * var(--u)); left:58%; width:42%; height:calc(38.5 * var(--u)); }
 .contact-photo-two { top:calc(41.9 * var(--u)); left:34.5%; width:23%; height:calc(20 * var(--u)); }
@@ -158,8 +159,18 @@ strong { font-weight:500; }
   .menu-toggle[aria-expanded="true"] span:first-child { transform:translateY(9px) rotate(45deg); }
   .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity:0; }
   .menu-toggle[aria-expanded="true"] span:last-child { transform:translateY(-9px) rotate(-45deg); }
-  .mobile-nav { display:none; position:fixed; z-index:150; inset:var(--header-h) 0 0; padding:16px 7% 24px; background:white; overflow:auto; flex-direction:column; justify-content:center; }
-  .mobile-nav:not([hidden]) { display:flex; }
+  .mobile-nav { display:flex; position:fixed; z-index:150; inset:var(--header-h) 0 0; padding:16px 7% 24px; background:white; overflow:auto; flex-direction:column; justify-content:safe center;
+    opacity:0; visibility:hidden; transform:translateY(-12px); pointer-events:none;
+    transition:opacity .28s ease, transform .36s cubic-bezier(.22,1,.36,1), visibility 0s .36s;
+    overscroll-behavior:contain;
+  }
+  .mobile-nav.is-open { opacity:1; visibility:visible; transform:translateY(0); pointer-events:auto; transition-delay:0s; }
+  .mobile-nav a { opacity:0; transform:translateY(10px); transition:opacity .18s ease, transform .25s ease; }
+  .mobile-nav.is-open a { opacity:1; transform:translateY(0); transition-delay:calc(var(--nav-order, 0) * 35ms + 60ms); }
+  .mobile-nav a:nth-child(2) { --nav-order:1; }
+  .mobile-nav a:nth-child(3) { --nav-order:2; }
+  .mobile-nav a:nth-child(4) { --nav-order:3; }
+  .mobile-nav a:nth-child(5) { --nav-order:4; }
   .mobile-nav a {         display: block;
         width: 100%;
         padding: clamp(6px, 1.7svh, 18px) 0;
@@ -167,14 +178,15 @@ strong { font-weight:500; }
         text-decoration: none;
         font: 400 clamp(19px, min(6.5vw, 3.5svh), 36px) / 1.32 var(--serif); }
 
-  .screen { height:100vh; height:100svh; }
+  /* Preserve the artboard proportions without squeezing or hiding content on short phones. */
+  .screen { height:max(760px, 100vh); height:max(760px, 100svh); }
   .section-heading { top:12.4%; left:6.9%; font-size:clamp(25px,min(5.7vw,5.2svh),45px); line-height:1.13; }
 
 
   /* The text remains in normal flow inside its anchored block, never individually cropped. */
   .home-copy { top:12%; bottom:auto; left:6.9%; right:6.9%; display:flex; flex-direction:column; align-items:flex-start; gap:clamp(8px,1.4svh,16px); }
   .home h1,.home-tagline,.home-description,.home-types,.home-links { position:static; margin:0; width:auto; }
-  .home h1 { width:min(65%,360px); margin-bottom:clamp(2px,.6svh,8px); }
+
   .home-tagline { font-size:clamp(22px,min(5.5vw,4.6svh),41px); line-height:1.12; max-width:680px;         padding-bottom: 10px; }
   .home-tagline br { display:none; }
   .home-description { font-size:clamp(15px,min(4.7vw,3svh),26px); line-height:1.28; max-width:660px; }
@@ -241,51 +253,9 @@ strong { font-weight:500; }
   .site-footer { left:6.9%; right:6.9%; bottom:3%; font-size:16px; padding-top:7px; gap:8px; }
 }
 
-/* Short phones: keep the complete copy, remove any photo which might conceal it. */
-@media (max-width:600px) and (max-height:720px) {
-  .home-copy { top:13.5%; gap:clamp(5px,.9svh,9px); }
-  .home h1 { width:65%; margin-bottom:0; }
-  .home-tagline { font-size:clamp(19px,min(6.4vw,4.25svh),29px); }
-  .home-description { font-size:clamp(13px,min(4.35vw,2.75svh),18px); }
-  .home-types { font-size:clamp(10px,min(2.7vw,1.9svh),14px); }
-  .home-links { font-size:clamp(15px,min(4.1vw,2.65svh),19px); }
-  .home-photo-one { top:73%; left:0; width:64%; height:21%; }
-  .home-photo-two { top:78%; left:65.5%; width:34.5%; height:16%; }
-  .about-text { top:21%; font-size:clamp(13px,min(4vw,2.6svh),17px); line-height:1.22; }
-  .about-main-photo { top:79%; height:14%; }
-  .beliefs-list { top:23%; font-size:clamp(12px,min(3.95vw,2.48svh),17px); line-height:1.23; }
-  .beliefs-list li { margin-bottom:.45em; }
-  .beliefs-photo { display:none; }
-  .service-text h3 { font-size:clamp(19px,min(5vw,3.2svh),26px); }
-  .service-text p { font-size:clamp(13px,min(4.05vw,2.6svh),18px); line-height:1.2; }
-  .service-private { top:21%; }
-  .service-supper { top:36.5%; }
-  .service-events { top:51.5%; }
-  .services-photo-one { top:78%; height:15%; }
-  .process-list { top:23%; font-size:clamp(13px,min(4.1vw,2.6svh),18px); line-height:1.24; }
-  .process-list li { margin-bottom:.6em; }
-  .process-photo { top:72%; height:20%; }
-  .gallery-one .photo-slot { height:28svh; }
-  .gallery-two .photo-slot { height:20svh; }
-  .gallery-one { top:31%; }
-  .gallery-two { top:43%; }
-  .gallery-instagram { top:87%; }
-  .words-main { top:27%; font-size:clamp(23px,min(6.1vw,4.3svh),32px); }
-  .words-small { top:69%; }
-  .club-photo { top:66%; height:22%; }
-  .contact-intro { top:27%; }
-  .contact-links { top:37%; font-size:clamp(14px,min(4.2vw,2.7svh),20px); }
-  .contact-photo-one { display:none; }
-  .site-footer { bottom:3%; }
-}
 
-/* Tiny landscape devices: photographs shrink or disappear before any text does. */
-@media (max-height:500px) {
-  :root { --u:min(.93vw,1.2svh); }
-  .site-header { height:44px; }
-  .section-heading { font-size:clamp(18px, min(4vw,6svh),30px); }
-  .about-small-photo,.beliefs-photo,.services-photo-two,.services-photo-three,.process-note,.gallery-three,.gallery-four,.contact-photo-two { display:none; }
-}
+
+
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
 
 
@@ -375,7 +345,7 @@ strong { font-weight:500; }
   .home-photo-one {         top: 69%;
         left: 0;
         width: 55%;
-        height: 30%; }
+        height: 23%; }
   .home-photo-two {         top: 69%;
         left: 60%;
         width: 40%;
@@ -385,7 +355,7 @@ strong { font-weight:500; }
         left: auto;
         right: 0%;
         width: 55%;
-        height: 38%; }
+        height: 28%; }
   .beliefs-photo {                    top: 51%;
         right: 0%;
         left: auto;
@@ -399,7 +369,7 @@ strong { font-weight:500; }
   .process-photo {                 top: 60%;
                 left: 0%;
         width: 82%;
-        height: 45%; }
+        height: 35%; }
 
   /* Two readable images instead of four squashed thumbnails. */
   .gallery-one { top:31%; left:0; width:53%; }
@@ -410,42 +380,20 @@ strong { font-weight:500; }
         padding-top: 10px; }
   .gallery-instagram { top:88%; }
 
-  .club-photo {         top: 53%;
+  .club-photo {         top: 64%;
         left: auto;
         right: 0;
         width: 61%;
-        height: 43%; }
-  .contact-photo-one {         top: 60%;
+        height: 32%; }
+  .contact-photo-one {         top: 67%;
         left: 45%;
-        width: 69%;
-        height: 30%; }
+        width: 55%;
+        height: 23%; }
 }
 
-/* In a small phone viewport, keeping every word visible comes first. */
-@media (max-width:600px) and (max-height:720px) {
-  .home-photo-one { top:75%; width:62%; height:19%; }
-  .home-photo-two { top:72%; left:64%; width:36%; height:22%; }
-  .about-main-photo { display:none; }
-  .services-photo-one { top:79%; left:40%; width:60%; height:14%; }
-  .process-photo { top:75%; left:37%; width:63%; height:17%; }
-  .gallery-one { top:32%; width:53%; }
-  .gallery-one .photo-slot { height:32svh; }
-  .gallery-two { top:41%; width:43%; }
-  .gallery-two .photo-slot { height:26svh; }
-  .gallery-instagram { top:86%; }
-  .club-photo { top:72%; left:66%; width:34%; height:17%; }
-}
 
-/* Narrow landscape: single generous image, never a sliced photograph. */
-@media (max-height:500px) {
-  .about-main-photo,.beliefs-photo,.club-photo,.contact-photo-one { display:none; }
-  .home-photo-one { top:62%; left:55%; width:45%; height:30%; }
-  .home-photo-two { display:none; }
-  .gallery-one { top:32%; left:8%; width:40%; }
-  .gallery-one .photo-slot { height:43svh; }
-  .gallery-two { top:36%; left:55%; width:37%; }
-  .gallery-two .photo-slot { height:38svh; }
-}
+
+
 
 @media (min-width:961px) {
   /* The date note sits beneath the portrait instead of across its lower edge. */
@@ -479,19 +427,10 @@ strong { font-weight:500; }
   .contact-intro { font-size:clamp(20px,min(5.2vw,3.55svh),32px); }
   .contact-links { font-size:clamp(17px,min(4.7vw,3.10svh),29px); }
 }
-@media (max-width:600px) and (max-height:720px) {
-  /* Deliberate fallback to the tighter set: never sacrifice readable content. */
-  .home-tagline { font-size:clamp(19px,min(6.4vw,4.25svh),29px); }
-  .home-description { font-size:clamp(13px,min(4.35vw,2.75svh),18px); }
-  .home-types { font-size:clamp(10px,min(2.7vw,1.9svh),14px); }
-  .home-links { font-size:clamp(15px,min(4.1vw,2.65svh),19px); }
-  .about-text { font-size:clamp(13px,min(4vw,2.6svh),17px); }
-  .beliefs-list { font-size:clamp(12px,min(3.95vw,2.48svh),17px); }
-  .service-text h3 { font-size:clamp(19px,min(5vw,3.2svh),26px); }
-  .service-text p { font-size:clamp(13px,min(4.05vw,2.6svh),18px); }
-  .process-list { font-size:clamp(13px,min(4.1vw,2.6svh),18px); }
-  .contact-links { font-size:clamp(14px,min(4.2vw,2.7svh),20px); }
-}
+
 @media (prefers-reduced-motion:reduce) {
-  .menu-toggle span { transition:none; }
+  .menu-toggle span, .mobile-nav, .mobile-nav a { transition:none; }
 }
+
+/* Programmatic focus must not draw a box around an entire editorial spread. */
+.screen:focus, #main:focus { outline:none; }

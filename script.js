@@ -1,64 +1,105 @@
 (() => {
   'use strict';
+
   const menuButton = document.querySelector('.menu-toggle');
   const menu = document.getElementById('mobile-nav');
-  const header = document.getElementById('site-header');
+  const main = document.getElementById('main');
+  const mobile = window.matchMedia('(max-width: 960px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let menuOpen = false;
 
-  function setMenu(open) {
-    menuButton.setAttribute('aria-expanded', String(open));
-    menuButton.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-    menu.hidden = !open;
-    document.body.classList.toggle('menu-open', open);
+  // Keep the panel rendered so both opening and closing can animate.
+  // Inert and aria-hidden prevent access to the closed panel.
+  menu.hidden = false;
+  menu.inert = true;
+  menu.setAttribute('aria-hidden', 'true');
+
+  function setMenuOpen(open, restoreFocus = false) {
+    menuOpen = open && mobile.matches;
+    menuButton.setAttribute('aria-expanded', String(menuOpen));
+    menuButton.setAttribute('aria-label', menuOpen ? 'Close navigation menu' : 'Open navigation menu');
+    menu.classList.toggle('is-open', menuOpen);
+    menu.inert = !menuOpen;
+    menu.setAttribute('aria-hidden', String(!menuOpen));
+    main.inert = menuOpen;
+    document.documentElement.classList.toggle('menu-open', menuOpen);
+    if (restoreFocus) menuButton.focus({ preventScroll: true });
   }
-  menuButton.addEventListener('click', () => setMenu(menu.hidden));
-  menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
-  document.addEventListener('click', e => {
-    if (!menu.hidden && !header.contains(e.target)) setMenu(false);
-  });
-  window.addEventListener('resize', () => { if (window.innerWidth > 960 && !menu.hidden) setMenu(false); });
 
-  const descriptions = {
-    heroTable: 'Welcoming restaurant and dining space', heroFood: 'Beautifully presented dinner',
-    heroGuests: 'People coming together', heroDetails: 'Thoughtful dining table details',
-    aboutKitchen: 'Cooking preparations in a kitchen', aboutTable: 'A freshly served meal',
-    servicePrivate: 'A thoughtfully prepared private table', serviceSupper: 'Dinner table ready for guests',
-    serviceEvents: 'Sharing seasonal food at an event', process: 'Cooking in preparation for dinner',
-    galleryOne: 'Dining setting (sample photo)', galleryTwo: 'Fresh food (sample photo)',
-    galleryThree: 'Table details (sample photo)', galleryFour: 'A meal to share (sample photo)',
-    nextClub: 'Dinner table inspiration for the upcoming supper club', contact: 'Food around a table'
-  };
-  const photos = window.MOMENTS_IMAGES || {};
-  document.querySelectorAll('[data-photo]').forEach((slot, index) => {
-    const key = slot.dataset.photo;
-    const src = typeof photos[key] === 'string' ? photos[key].trim() : '';
-    slot.setAttribute('role', 'img');
-    slot.setAttribute('aria-label', src ? descriptions[key] || 'Food and gathering photograph' : `${slot.dataset.placeholder} — add your photo in images.js`);
-    if (!src) return;
-    const img = document.createElement('img');
-    img.alt = '';
-    img.loading = index < 4 ? 'eager' : 'lazy';
-    img.decoding = 'async';
-    if (index === 0) img.fetchPriority = 'high';
-    img.addEventListener('load', () => slot.classList.add('is-loaded'), { once: true });
-    img.addEventListener('error', () => slot.classList.add('has-error'), { once: true });
-    img.src = src;
-    slot.appendChild(img);
+  menuButton.addEventListener('click', () => setMenuOpen(!menuOpen));
+  document.addEventListener('keydown', event => {
+    if (!menuOpen) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setMenuOpen(false, true);
+    } else if (event.key === 'Tab') {
+      const links = Array.from(menu.querySelectorAll('a'));
+      const controls = [menuButton, ...links];
+      const index = controls.indexOf(document.activeElement);
+      if (event.shiftKey && index <= 0) {
+        event.preventDefault();
+        controls[controls.length - 1].focus();
+      } else if (!event.shiftKey && (index === controls.length - 1 || index === -1)) {
+        event.preventDefault();
+        menuButton.focus();
+      }
+    }
   });
+  mobile.addEventListener('change', () => {
+    if (!mobile.matches) {
+      const hadMenuFocus = menu.contains(document.activeElement) || document.activeElement === menuButton;
+      setMenuOpen(false);
+      if (hadMenuFocus) {
+        const activeLink = document.querySelector('.desktop-nav a[aria-current]') || document.querySelector('.desktop-nav a');
+        activeLink.focus({ preventScroll: true });
+      }
+    }
+  });
+
+  // Preserve the site's clean URL while making section links work with a keyboard.
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const destination = document.getElementById(link.hash.slice(1));
+      if (!destination) return;
+      event.preventDefault();
+      setMenuOpen(false);
+      destination.setAttribute('tabindex', '-1');
+      destination.focus({ preventScroll: true });
+      destination.scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'start' });
+    });
+  });
+
+  // A single reading line makes selection deterministic, including scrolling upwards.
+  // The process spread belongs to Experiences, so that link stays active through it.
+  const links = Array.from(document.querySelectorAll('.site-header nav a'));
+  const sections = Array.from(document.querySelectorAll('main section[id]'));
+  let scheduled = false;
+  function updateActiveSection() {
+    scheduled = false;
+    const readingLine = window.innerHeight * 0.35;
+    let current = sections[0];
+    sections.forEach(section => {
+      if (section.getBoundingClientRect().top <= readingLine) current = section;
+    });
+    const id = current.id === 'process' ? 'beliefs' : current.id;
+    links.forEach(link => {
+      const active = link.hash === `#${id}`;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  function scheduleUpdate() {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(updateActiveSection);
+  }
+  window.addEventListener('scroll', scheduleUpdate, { passive: true });
+  window.addEventListener('resize', scheduleUpdate);
+  window.addEventListener('pageshow', scheduleUpdate);
+  updateActiveSection();
 
   const year = document.getElementById('copyright-year');
   if (year) year.textContent = String(new Date().getFullYear());
-
-  // Indicate the current section without hiding or changing scroll behavior.
-  const navLinks = Array.from(document.querySelectorAll('.desktop-nav a'));
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(a => a.classList.toggle('active', a.hash === `#${entry.target.id}`));
-        }
-      });
-    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
-    document.querySelectorAll('main section[id]').forEach(section => observer.observe(section));
-  }
 })();
